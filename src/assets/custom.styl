@@ -1,0 +1,34 @@
+gradient()
+  background: -webkit-gradient(right top, #7f00ff, #e100ff)
+  background: -webkit-linear-gradient(right top, #7f00ff, #e100ff)
+  background: -o-linear-gradient(right top, #7f00ff, #e100ff)
+  background: linear-gradient(right top, #7f00ff, #e100ff)
+blur($radius)
+  -webkit-filter: $radius
+  -moz-filter: $radius
+  -o-filter: $radius
+  -ms-filter: $radius
+  filter: $radius
+transition($properties)
+  -webkit-transition: $properties
+  -o-transition: $properties
+  transition: $properties
+
+.vs-col
+  padding: 20px 0
+.large-input
+  padding: 0 20px
+  width: 100%
+  input, button
+    width: 100%
+    font-size: 2em
+  .vs-con-input
+    .vs-inputx
+      &:focus,&.hasValue
+        + .vs-placeholder-label
+          transform: translate(-5px,-2em) !important
+          font-size: 0.6em !important
+          overflow: visible
+.title
+  font-size: 3em
+  margin: 0.3em 1em
