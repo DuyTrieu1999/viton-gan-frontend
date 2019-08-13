@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <vs-upload></vs-upload>
+    <Body />
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  import Body from '@/view/Body.vue'
+  export default {
+    name: 'app',
+    components: {
+      Body
+    }
+  }
 </script>
 
 <style>
