@@ -4,7 +4,7 @@
       <img style = "margin-left: auto; margin-right: auto; display: block;"src = "https://i.imgur.com/7mEU39G.png"></img>
     </div>
     <div class="large-12 medium-12 small-12 cell clear">
-      <p style = "text-align: center; font-size:20px; margin-top:20px;">{{btnName}} <img src = "https://png.pngtree.com/ width:10px; height:10px; svg/20170518/274aed119e.svg"> </img></p>
+      <p style = "text-align: center; font-size:20px; margin-top:20px;">{{btnName}} <img :src="iconSrc"  style = "width:20px; height:20px;"> </img></p>
       <img src="https://igdm.me/img/icon.png" id = "upload-button" v-on:click="addFiles()"> </img>
     </div>
     <div class="large-12 medium-12 small-12 cell">
@@ -30,7 +30,8 @@
     data () {
       return {
         files: [],
-        btnName: 'Take picture of the person'
+        btnName: 'Take picture of the trying person',
+        iconSrc: 'https://png.pngtree.com/svg/20170518/274aed119e.svg'
       }
     },
 
@@ -42,7 +43,8 @@
         Adds a file
       */
       addFiles () {
-        this.btnName = 'Take picture of the cloth'
+        this.btnName = 'Take picture of an outfit'
+        this.iconSrc = 'https://image.flaticon.com/icons/png/512/106/106020.png'
         this.$refs.files.click()
       },
 
@@ -167,7 +169,7 @@
   margin-left: auto;
   border-radius: 4vh;
   margin-right: auto;
-  width: 80%;
+  width: 50%;
   height: auto;
   }
 </style>
