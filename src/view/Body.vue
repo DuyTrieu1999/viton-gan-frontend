@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div class="large-12 medium-12 small-12 cell">
-      <img style = "margin-left: auto; margin-right: auto; display: block;"src = "https://i.imgur.com/7mEU39G.png"></img>
+      <label>
+        <input type="file" id="files" ref="files" accept="image/*" multiple v-on:change="handleFilesUpload()"/>
+      </label>
+      <img style = "margin-left: auto; margin-right: auto; display: block;"src = "https://i.imgur.com/7mEU39G.png" />
     </div>
     <div class="large-12 medium-12 small-12 cell clear">
       <p style = "text-align: center; font-size:20px; margin-top:20px;">{{btnName}} <img :src="iconSrc"  style = "width:20px; height:20px;"> </img></p>
@@ -19,6 +22,9 @@
       </div>
     </div>
     <br>
+    <div v-if="output">
+
+    </div>
   </div>
 </template>
 
@@ -31,6 +37,7 @@
       return {
         files: [],
         btnName: 'Take picture of the trying person',
+        output: false,
         iconSrc: 'https://png.pngtree.com/svg/20170518/274aed119e.svg'
       }
     },
@@ -163,7 +170,7 @@
   text-align: center;
 	}
   #upload-button{
-  background-color: lightblue; 
+  background-color: lightblue;
   cursor:pointer;
   display: block;
   margin-left: auto;
@@ -171,5 +178,9 @@
   margin-right: auto;
   width: 50%;
   height: auto;
+  }
+  .buttonHolder{
+    text-align: center;
+    padding: 40px 40px 40px 40px;
   }
 </style>
