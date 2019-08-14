@@ -7,11 +7,11 @@
       <img style = "margin-left: auto; margin-right: auto; display: block;"src = "https://i.imgur.com/7mEU39G.png" />
     </div>
     <div class="large-12 medium-12 small-12 cell clear">
-      <p style = "text-align: center; font-size:20px; margin-top:20px;">{{btnName}} <img :src="iconSrc"  style = "width:20px; height:20px;"> </img></p>
+      <p style = "text-align: center; font-size:20px; margin-top:20px;"><img :src="iconSrc"  style = "width:20px; height:20px;"> {{btnName}} <img :src="iconSrc"  style = "width:20px; height:20px;"> </p>
       <img src="https://igdm.me/img/icon.png" id = "upload-button" v-on:click="addFiles()"> </img>
     </div>
     <div class="large-12 medium-12 small-12 cell">
-      <button v-on:click="submitFiles()" class = "block">Submit</button>
+      <button v-on:click="submitFiles()" class = "block" style = "font-size: 30px;">Try on</button>
     </div>
     <br>
     <div class="large-12 medium-12 small-12 cell" id="img">
@@ -176,7 +176,7 @@
   margin-left: auto;
   border-radius: 4vh;
   margin-right: auto;
-  width: 50%;
+  width: 60%;
   height: auto;
   }
   .buttonHolder{
