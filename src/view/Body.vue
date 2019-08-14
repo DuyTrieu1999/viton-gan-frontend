@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <div class="large-12 medium-12 small-12 cell">
-      <label>Files
+      <label>
         <input type="file" id="files" ref="files" accept="image/*" multiple v-on:change="handleFilesUpload()"/>
       </label>
     </div>
-    <div class="large-12 medium-12 small-12 cell clear">
-      <button v-on:click="addFiles()">Add Files</button>
+    <div class="large-12 medium-12 small-12 cell clear buttonHolder">
+      <vs-button size="large" color="primary" type="border" v-on:click="addFiles()">Add Files</vs-button>
     </div>
-    <div class="large-12 medium-12 small-12 cell">
-      <button v-on:click="submitFiles()">Submit</button>
+    <div class="large-12 medium-12 small-12 cell buttonHolder">
+      <vs-button size="large" color="primary" type="border" v-on:click="submitFiles()">Submit</vs-button>
     </div>
     <br>
     <div class="large-12 medium-12 small-12 cell" id="img">
@@ -20,6 +20,9 @@
       </div>
     </div>
     <br>
+    <div v-if="output">
+
+    </div>
   </div>
 </template>
 
@@ -30,7 +33,8 @@
     */
     data () {
       return {
-        files: []
+        files: [],
+        output: false
       }
     },
 
@@ -49,24 +53,12 @@
         Submits files to the server
       */
       submitFiles () {
-        /*
-          Initialize the form data
-        */
         let formData = new FormData()
-
-        /*
-          Iteate over any file sent over appending the files
-          to the form data.
-        */
-        for (var i = 0; i < this.files.length; i++) {
+        for (let i = 0; i < this.files.length; i++) {
           let file = this.files[i]
 
           formData.append('files[' + i + ']', file)
         }
-
-        /*
-          Make the request to the POST /select-files URL
-        */
         fetch('http://localhost:8081/form', {
           method: 'POST',
           body: formData
@@ -147,5 +139,9 @@
   }
   .preview {
     overflow: auto;
+  }
+  .buttonHolder{
+    text-align: center;
+    padding: 40px 40px 40px 40px;
   }
 </style>
