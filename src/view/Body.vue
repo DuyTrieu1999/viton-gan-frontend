@@ -1,15 +1,14 @@
 <template>
   <div class="container">
     <div class="large-12 medium-12 small-12 cell">
-      <label>Files
-        <input type="file" id="files" ref="files" accept="image/*" multiple v-on:change="handleFilesUpload()"/>
-      </label>
+      <img style = "margin-left: auto; margin-right: auto; display: block;"src = "https://i.imgur.com/7mEU39G.png"></img>
     </div>
     <div class="large-12 medium-12 small-12 cell clear">
-      <button v-on:click="addFiles()">Add Files</button>
+      <p style = "text-align: center; font-size:20px; margin-top:20px;">{{btnName}} <img src = "https://png.pngtree.com/ width:10px; height:10px; svg/20170518/274aed119e.svg"> </img></p>
+      <img src="https://igdm.me/img/icon.png" id = "upload-button" v-on:click="addFiles()"> </img>
     </div>
     <div class="large-12 medium-12 small-12 cell">
-      <button v-on:click="submitFiles()">Submit</button>
+      <button v-on:click="submitFiles()" class = "block">Submit</button>
     </div>
     <br>
     <div class="large-12 medium-12 small-12 cell" id="img">
@@ -30,7 +29,8 @@
     */
     data () {
       return {
-        files: []
+        files: [],
+        btnName: 'Take picture of the person'
       }
     },
 
@@ -42,6 +42,7 @@
         Adds a file
       */
       addFiles () {
+        this.btnName = 'Take picture of the cloth'
         this.$refs.files.click()
       },
 
@@ -147,5 +148,26 @@
   }
   .preview {
     overflow: auto;
+  }
+  .block {
+  display: block;
+  width: 100%;
+  border: solid black 1px;
+  margin-top: 2vh;
+  background-color: hsl(220,50%,80%);
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+	}
+  #upload-button{
+  background-color: lightblue; 
+  cursor:pointer;
+  display: block;
+  margin-left: auto;
+  border-radius: 4vh;
+  margin-right: auto;
+  width: 80%;
+  height: auto;
   }
 </style>
