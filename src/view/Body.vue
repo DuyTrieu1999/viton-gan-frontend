@@ -8,10 +8,10 @@
     </div>
     <div class="large-12 medium-12 small-12 cell clear">
       <p style = "text-align: center; font-size:20px; margin-top:20px;">{{btnName}} <img :src="iconSrc"  style = "width:20px; height:20px;"> </img></p>
-      <img src="https://igdm.me/img/icon.png" id = "upload-button" v-on:click="addFiles()"> </img>
+      <img src="https://igdm.me/img/icon.png" id = "upload-button" v-on:click="addFiles()" />
     </div>
-    <div class="large-12 medium-12 small-12 cell">
-      <button v-on:click="submitFiles()" class = "block">Submit</button>
+    <div class="large-12 medium-12 small-12 cell" v-if="clicked2Times">
+      <button v-on:click="submitFiles()" class = "block">Try On</button>
     </div>
     <br>
     <div class="large-12 medium-12 small-12 cell" id="img">
@@ -38,7 +38,9 @@
         files: [],
         btnName: 'Take picture of the trying person',
         output: false,
-        iconSrc: 'https://png.pngtree.com/svg/20170518/274aed119e.svg'
+        iconSrc: 'https://png.pngtree.com/svg/20170518/274aed119e.svg',
+        noClick: 0,
+        clicked2Times: false
       }
     },
 
@@ -53,8 +55,14 @@
         this.btnName = 'Take picture of an outfit'
         this.iconSrc = 'https://image.flaticon.com/icons/png/512/106/106020.png'
         this.$refs.files.click()
+        this.noClick += 1
+        if (this.noClick >= 2) {
+          this.addButton()
+        }
       },
-
+      addButton () {
+        this.clicked2Times = true
+      },
       /*
         Submits files to the server
       */
@@ -63,11 +71,6 @@
           Initialize the form data
         */
         let formData = new FormData()
-
-        /*
-          Iteate over any file sent over appending the files
-          to the form data.
-        */
         for (var i = 0; i < this.files.length; i++) {
           let file = this.files[i]
 
