@@ -1,19 +1,25 @@
 <template>
-  <div class="container">
+  <div class="container bg" style = "height: 100vh; width: 100vw;">
     <div class="large-12 medium-12 small-12 cell">
       <label>
-        <input type="file" id="files" ref="files" accept="image/*" multiple v-on:change="handleFilesUpload()"/>
+        <input type="file" id="file1" ref="file1" accept="image/*" multiple v-on:change="handleFilesUpload1()"/>
+        <input type="file" id="file2" ref="file2" accept="image/*" multiple v-on:change="handleFilesUpload2()"/>
       </label>
       <img style = "margin-left: auto; margin-right: auto; display: block;"src = "https://i.imgur.com/7mEU39G.png" />
     </div>
+
     <div class="large-12 medium-12 small-12 cell clear">
-      <p style = "text-align: center; font-size:20px; margin-top:20px;"><img :src="iconSrc"  style = "width:20px; height:20px;"> {{btnName}} <img :src="iconSrc"  style = "width:20px; height:20px;"> </p>
-      <img src="https://igdm.me/img/icon.png" id = "upload-button" v-on:click="addFiles()"> </img>
+     
+      <img style = "margin-top: 3vh;"src="https://cdn1.iconfinder.com/data/icons/user-pics/512/user_add-512.png" id = "upload-button" v-on:click="addFiles1()"> </img>
+      <img style = "margin-top: 3vh;"src="https://cdn3.iconfinder.com/data/icons/e-commerce-105/300/clothes-purchase-store-onlineadd-512.png" id = "upload-button" v-on:click="addFiles2()"> </img>
     </div>
+
     <div class="large-12 medium-12 small-12 cell">
-      <button v-on:click="submitFiles()" class = "block" style = "font-size: 30px;">Try on</button>
+      <button v-on:click="submitFiles()" class = "block" style = "font-size: 30px;" v-if="clicked2Times">Try on</button>
     </div>
+
     <br>
+
     <div class="large-12 medium-12 small-12 cell" id="img">
       <div>
         <vs-col :key="index" v-for="(file, index) in files" vs-w="6" vs-type="flex" vs-justify="center" vs-align="center">
@@ -30,114 +36,77 @@
 
 <script>
   export default {
-    /*
-      Defines the data used by the component
-    */
+
     data () {
       return {
-        files: [],
-        btnName: 'Take picture of the trying person',
+        file1: '',
+        file2: '',
         output: false,
-        iconSrc: 'https://png.pngtree.com/svg/20170518/274aed119e.svg',
         noClick: 0,
         clicked2Times: false
       }
     },
 
-    /*
-      Defines the method used by the component
-    */
     methods: {
-      /*
-        Adds a file
-      */
-      addFiles () {
-        this.btnName = 'Take picture of an outfit'
-        this.iconSrc = 'https://image.flaticon.com/icons/png/512/106/106020.png'
-        this.$refs.files.click()
-        this.noClick += 1
-        if (this.noClick >= 2) {
-          this.addButton()
-        }
+      addFiles1 () {
+        this.$refs.file1.click()
+      },
+      addFiles2 () {
+        this.$refs.file2.click()
       },
       addButton () {
         this.clicked2Times = true
       },
-      /*
-        Submits files to the server
-      */
+
       submitFiles () {
-        /*
-          Initialize the form data
-        */
         let formData = new FormData()
-        for (var i = 0; i < this.files.length; i++) {
-          let file = this.files[i]
+        formData.append('files[1]', this.file1)
+        formData.append('files[2]', this.file2)
 
-          formData.append('files[' + i + ']', file)
-        }
-
-        /*
-          Make the request to the POST /select-files URL
-        */
         fetch('http://localhost:8081/form', {
           method: 'POST',
           body: formData
         }).then(res => { console.log('TODO') })
       },
 
-      /*
-        Handles the uploading of files
-      */
-      handleFilesUpload () {
-        /*
-          Get the uploaded files from the input.
-        */
-        let uploadedFiles = this.$refs.files.files
+      handleFilesUpload1 () {
+        console.log('aaaa')
 
-        /*
-          Adds the uploaded file to the files array
-        */
-        for (let i = 0; i < uploadedFiles.length; i++) {
-          this.files.push(uploadedFiles[i])
+        this.file1 = this.$refs.file1.files[0]
+
+        if (this.noClick === 3) {
+          return
         }
+        console.log(this.file1 !== '')
+        this.noClick |= (this.file1 !== '')
+        if (this.noClick === 3) {
+          this.addButton()
+        }
+      },
+      handleFilesUpload2 () {
+        console.log('bbbb')
 
-        /*
-          Generate image previews for the uploaded files
-        */
-        this.getImagePreviews()
+        this.file2 = this.$refs.file2.files[0]
+
+        if (this.noClick === 3) {
+          return
+        }
+        console.log(this.file2 !== '')
+        this.noClick |= ((this.file2 !== '') * 2)
+        if (this.noClick === 3) {
+          this.addButton()
+        }
       },
 
-      /*
-        Gets the preview image for the file.
-      */
       getImagePreviews () {
-        /*
-          Iterate over all of the files and generate an image preview for each one.
-        */
         for (let i = 0; i < this.files.length; i++) {
-          /*
-            Ensure the file is an image file
-          */
           if (/\.(jpe?g|png|gif)$/i.test(this.files[i].name)) {
-            /*
-              Create a new FileReader object
-            */
             let reader = new FileReader()
 
-            /*
-              Add an event listener for when the file has been loaded
-              to update the src on the file preview.
-            */
             reader.addEventListener('load', function () {
               this.$refs['image' + parseInt(i)][0].src = reader.result
             }.bind(this), false)
 
-            /*
-              Read the data for the file in through the reader. When it has
-              been loaded, we listen to the event propagated and set the image
-              src to what was loaded from the reader.
-            */
             reader.readAsDataURL(this.files[i])
           }
         }
@@ -175,15 +144,24 @@
   #upload-button{
   background-color: lightblue;
   cursor:pointer;
-  display: block;
-  margin-left: auto;
-  border-radius: 4vh;
+  margin-left: 3%;
+  border-radius: 5vh;
   margin-right: auto;
-  width: 60%;
+  width: 45%;
   height: auto;
   }
   .buttonHolder{
     text-align: center;
     padding: 40px 40px 40px 40px;
+  }
+  .bg{
+  background-image: url("https://previews.123rf.com/images/oksancia/oksancia1806/oksancia180600038/103362842-blue-tribal-abstract-seamless-repeat-pattern-texture-great-for-folk-modern-wallpaper-backgrounds-inv.jpg");
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: repeat;
+  background-size: cover;
   }
 </style>
