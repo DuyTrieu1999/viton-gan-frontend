@@ -10,24 +10,14 @@
 
     <div class="large-12 medium-12 small-12 cell clear">
      
-      <img style = "margin-top: 3vh;"src="https://cdn1.iconfinder.com/data/icons/user-pics/512/user_add-512.png" id = "upload-button" v-on:click="addFiles1()"> </img>
-      <img style = "margin-top: 3vh;"src="https://cdn3.iconfinder.com/data/icons/e-commerce-105/300/clothes-purchase-store-onlineadd-512.png" id = "upload-button" v-on:click="addFiles2()"> </img>
+      <img style = "margin-top: 3vh;" v-bind:ref='image1' :src="imageData1" id = "upload-button" v-on:click="addFiles1()"> </img>
+      <img style = "margin-top: 3vh;" v-bind:ref='image2' :src="imageData2" id = "upload-button" v-on:click="addFiles2()"> </img>
     </div>
 
     <div class="large-12 medium-12 small-12 cell">
       <button v-on:click="submitFiles()" class = "block" style = "font-size: 30px;" v-if="clicked2Times">Try on</button>
     </div>
 
-    <br>
-
-    <div class="large-12 medium-12 small-12 cell" id="img">
-      <div>
-        <vs-col :key="index" v-for="(file, index) in files" vs-w="6" vs-type="flex" vs-justify="center" vs-align="center">
-          <vs-image class="preview" v-bind:ref="'image'+parseInt( index )"/>
-        </vs-col>
-      </div>
-    </div>
-    <br>
     <div v-if="output">
 
     </div>
@@ -41,6 +31,8 @@
       return {
         file1: '',
         file2: '',
+        imageData1: 'https://cdn1.iconfinder.com/data/icons/user-pics/512/user_add-512.png',
+        imageData2: 'https://cdn3.iconfinder.com/data/icons/e-commerce-105/300/clothes-purchase-store-onlineadd-512.png',
         output: false,
         noClick: 0,
         clicked2Times: false
@@ -82,6 +74,7 @@
         if (this.noClick === 3) {
           this.addButton()
         }
+        this.getImagePreviews(this.file1, 1)
       },
       handleFilesUpload2 () {
         console.log('bbbb')
@@ -96,19 +89,25 @@
         if (this.noClick === 3) {
           this.addButton()
         }
+        this.getImagePreviews(this.file2, 2)
       },
 
-      getImagePreviews () {
-        for (let i = 0; i < this.files.length; i++) {
-          if (/\.(jpe?g|png|gif)$/i.test(this.files[i].name)) {
-            let reader = new FileReader()
+      getImagePreviews (files, box) {
+        console.log('display')
 
-            reader.addEventListener('load', function () {
-              this.$refs['image' + parseInt(i)][0].src = reader.result
-            }.bind(this), false)
+        if (/\.(jpe?g|png|gif)$/i.test(files.name)) {
+          let reader = new FileReader()
 
-            reader.readAsDataURL(this.files[i])
-          }
+          reader.addEventListener('load', function () {
+            if (box === 1) {
+              this.imageData1 = reader.result
+            }
+            if (box === 2) {
+              this.imageData2 = reader.result
+            }
+          }.bind(this), false)
+
+          reader.readAsDataURL(files)
         }
       }
     }
@@ -116,10 +115,6 @@
 </script>
 
 <style>
-  #img {
-    width: 100%;
-
-  }
   input[type="file"]{
     position: absolute;
     top: -500px;
