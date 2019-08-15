@@ -15,7 +15,7 @@
     </div>
 
     <div class="large-12 medium-12 small-12 cell">
-      <button v-on:click="submitFiles()" class = "block" style = "font-size: 30px;" v-if="clicked2Times">Try on</button>
+      <button v-on:click="submitFiles()" id = 'submitButton' class = "block" style = "font-size: 30px;" v-if="clicked2Times">Try on</button>
     </div>
 
     <div v-if="output">
@@ -54,7 +54,13 @@
         let formData = new FormData()
         formData.append('files[1]', this.file1)
         formData.append('files[2]', this.file2)
-
+        console.log('aaaa')
+        document.getElementById('submitButton').classList.add('loader')
+        document.getElementById('submitButton').innerHTML = ''
+        document.getElementById('submitButton').style = 'background-color: hsla(220,50%,90%,0.9);'
+        setTimeout(function () {
+          alert('Please wait!')
+        }, 1)
         fetch('http://localhost:8081/form', {
           method: 'POST',
           body: formData
@@ -127,15 +133,19 @@
   }
   .block {
   display: block;
-  width: 100%;
+  width: 45%;
   border: solid black 1px;
   margin-top: 2vh;
   background-color: hsl(220,50%,80%);
   padding: 14px 28px;
+  border-radius: 5vh;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 16px;
   cursor: pointer;
   text-align: center;
 	}
+
   #upload-button{
   background-color: lightblue;
   cursor:pointer;
@@ -158,5 +168,18 @@
   background-position: center;
   background-repeat: repeat;
   background-size: cover;
+  }
+  .loader {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 30px;
+  height: 65px;
+  animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
   }
 </style>
