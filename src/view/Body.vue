@@ -18,8 +18,12 @@
       <button v-on:click="submitFiles()" id = 'submitButton' class = "block" style = "font-size: 30px;" v-if="clicked2Times">Try on</button>
     </div>
 
-    <div v-if="output">
-
+    <div>
+    	<img id = "xnxx1" src = "">
+    	<img id = "xnxx2" src = "">
+    	<img id = "xnxx3" src = "">
+    	<img id = "xnxx4" src = "">
+    	<img id = "xnxx5" src = "">
     </div>
   </div>
 </template>
@@ -53,18 +57,27 @@
       submitFiles () {
         let formData = new FormData()
         formData.append('files[1]', this.file1)
-        formData.append('files[2]', this.file2)
+        // formData.append('files[2]', this.file2)
         console.log('aaaa')
         document.getElementById('submitButton').classList.add('loader')
         document.getElementById('submitButton').innerHTML = ''
         document.getElementById('submitButton').style = 'background-color: hsla(220,50%,90%,0.9);'
         setTimeout(function () {
-          alert('Please wait!')
+          alert('Please wait for data to be process!')
         }, 1)
-        fetch('http://localhost:8081/form', {
+        fetch('http://192.168.13.9:8080/form', {
           method: 'POST',
           body: formData
-        }).then(res => { console.log('TODO') })
+        }).then(res => {
+          setTimeout(function () {
+            document.getElementById('xnxx1').src = 'http://192.168.13.9:8182/1.jpg'
+            document.getElementById('xnxx2').src = 'http://192.168.13.9:8182/2.jpg'
+            document.getElementById('xnxx3').src = 'http://192.168.13.9:8182/3.jpg'
+            document.getElementById('xnxx4').src = 'http://192.168.13.9:8182/4.jpg'
+            document.getElementById('xnxx5').src = 'http://192.168.13.9:8182/5.jpg'
+            document.getElementById('submitButton').style = 'display: none;'
+          }, 120000)
+        })
       },
 
       handleFilesUpload1 () {
@@ -162,7 +175,7 @@
   .bg{
   background-image: url("https://previews.123rf.com/images/oksancia/oksancia1806/oksancia180600038/103362842-blue-tribal-abstract-seamless-repeat-pattern-texture-great-for-folk-modern-wallpaper-backgrounds-inv.jpg");
   /* Full height */
-  height: 100%; 
+  height: 150%; 
 
   /* Center and scale the image nicely */
   background-position: center;
